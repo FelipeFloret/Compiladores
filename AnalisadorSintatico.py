@@ -1,7 +1,6 @@
 from ply.yacc import yacc
 from lexico import lexer, tokens
 
-#Felipe Floret
 
 VERBOSE = 1
 
@@ -20,7 +19,7 @@ def p_class(p):
     pass
 
 def p_list_feature(p):
-    ''' list_feature : list_feature feature
+    ''' list_feature : list_feature feature PONTOVIRGULA
     | feature PONTOVIRGULA
     | empty'''
     pass
@@ -78,8 +77,8 @@ def p_list_expr(p):
     pass
 
 def p_arroba_expr(p):
-    ''' expr : expr ARROBA ID PONTO ABREPARENTESES list_expr FECHAPARENTESES
-    | expr PONTO ABREPARENTESES list_expr FECHAPARENTESES '''
+    ''' expr : expr ARROBA ID PONTO ID ABREPARENTESES list_expr FECHAPARENTESES
+    | expr PONTO ID ABREPARENTESES list_expr FECHAPARENTESES '''
     pass
 
 def p_expr2(p):
@@ -121,18 +120,17 @@ def p_error(p):
     #print str(dir(c_lexer))
     if VERBOSE:
         if p is not None:
-            print ("Error en Sintaxis linea:" + str(lexer.lineno)+"  Error de Contexto " + str(p.value))
+            print ("Sintatic error in line:" + str(lexer.lineno)+"  Context error " + str(p.value))
         else:
-            print ("Error en Lexico linea: " + str(lexer.lexer.lineno))
+            print ("Lexico error in line: " + str(lexer.lexer.lineno))
     else:
         raise Exception('Syntax', 'error')
 
 parser = yacc()
 
-arq_open = 'helloworld.cl'
+arq_open = 'palindrome.cl'
 arq = open(arq_open,'r')
 leit = arq.read()
 aux = parser.parse(leit, lexer = lexer)
 print(aux)
-
 
